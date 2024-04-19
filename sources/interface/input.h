@@ -3,6 +3,8 @@
 
 typedef struct input Input;
 
-Input* criarInput(int type, int length);
+char* getTextInput(Input *input);
+Input* criarInput(const int type);
+void inserirCaractere(Input *const input, const char c);
 
 #endif

@@ -3,9 +3,9 @@
 
 typedef struct comando Comando;
 
-Comando* criarComando(char *nome, char *descricao, int num_params, void (*funcao)(int, ...), Comando *subcomandos);
+Comando* criarComando(char *nome, char *descricao, int num_params, void (*funcao)(int, ...));
 Comando* buscarComando(Comando *lista, char *nome);
 void inserirComando(Comando **lista, Comando *novo);
-int executarComando(Comando *comando, int num_params, ...);
+//int executarComando(Comando *comando, int num_params, ...);
 
 #endif

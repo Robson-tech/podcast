@@ -7,21 +7,21 @@
 struct comando {
 	char *nome;
 	char *descricao;
-	int num_params;
+	int args_num;
+	void *args_val;
 	void (*funcao)(int, ...);
-	Comando *subcomandos;
 	struct comando *prox;
 };
 
-Comando* criarComando(char *nome, char *descricao, int num_params, void (*funcao)(int, ...), Comando *subcomandos) {
+Comando* criarComando(char *nome, char *descricao, int args_num, void (*funcao)(int, ...)) {
 	Comando *novo = NULL;
 	novo = (Comando*) malloc(sizeof(Comando));
 	if(novo) {
 		strcpy(novo->nome, nome);
 		strcpy(novo->descricao, descricao);
-		novo->num_params = num_params;
+		novo->args_num = args_num;
 		novo->funcao = funcao;
-		novo->subcomandos = subcomandos;
+		novo->args_val = NULL;
 		novo->prox = NULL;
 	}
 	return novo;
@@ -29,11 +29,9 @@ Comando* criarComando(char *nome, char *descricao, int num_params, void (*funcao
 
 Comando* buscarComando(Comando *lista, char *nome) {
 	Comando *busca = NULL;
-	while(lista) {
-		if(strcmp(nome, lista->nome) == 0) {
+	while(lista && busca == NULL) {
+		if(strcmp(nome, lista->nome) == 0)
 			busca = lista;
-			break;
-		}
 		lista = lista->prox;
 	}
 	return busca;
@@ -46,10 +44,10 @@ void inserirComando(Comando **lista, Comando *novo) {
 	}
 }
 
-int executarComando(Comando *comando, int num_params, ...) {
-	va_list params;
-	va_start(params, num_params);
-	if(comando && num_params == comando->num_params)
-		comando->funcao(num_params, num_params, params);
-	va_end(params);
-}
+//int executarComando(Comando *comando, int args_num, ...) {
+//	va_list params;
+//	va_start(params, args_num);
+//	if(comando && args_num == comando->args_num)
+//		comando->funcao(args_num, args_num, params);
+//	va_end(params);
+//}

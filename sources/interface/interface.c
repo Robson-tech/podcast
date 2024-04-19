@@ -5,6 +5,12 @@
 #include "comando.h"
 #include "input.h"
 
+enum tipo {
+	COMANDO,
+	PARAMETRO,
+	VALOR
+};
+
 void executarInterface() {
 	Comando *lista = NULL;
 	Input *input = NULL;
@@ -98,10 +104,30 @@ void executarInterface() {
 	} while(executando);
 }
 
-void verificarParametros(char *input, int i) {
-	
+void verificarComandos(Comando *comandos, char *input) {
+	Input **lista_inputs = NULL;
+	int i, num = 0, has_com = 0;
+	for(i = 0; i < strlen(input); i++) {
+		if(isalpha(input[i])) {
+			if(lista_inputs == NULL) {
+				has_com = 1;
+				lista_inputs = (Input**) calloc(1, sizeof(Input*));
+				lista_inputs[num] = criarInput(COMANDO);
+				num++;
+			}
+			inserirCaractere(lista_inputs[num - 1], input[i]);
+			if(!isalpha(input[i + 1])) {
+				buscarComando(comandos, getTextInput(lista_inputs[num - 1]));
+//				comando[l][k - 1] = '\0';
+//				if(strcmp(comando[l], "sair") == 0) executando = 0;
+//				l++; k = 1;
+//				comando = (char**) realloc(comando, sizeof(char*) * (l + 1));
+//				comando[l] = (char*) calloc(k, sizeof(char));
+			}
+		}
+	}
 }
 
-void verificarComandos() {
+void verificarParametros(char *input) {
 	
 }

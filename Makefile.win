@@ -1,0 +1,58 @@
+# Project: podcast
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = sources/main.o sources/teste.o sources/interface/input.o sources/interface/comando.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o
+LINKOBJ  = sources/main.o sources/teste.o sources/interface/input.o sources/interface/comando.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = podcast.exe
+CXXFLAGS = $(CXXINCS) -g3 -O0
+CFLAGS   = $(INCS) -g3 -O0
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+sources/main.o: sources/main.c
+	$(CC) -c sources/main.c -o sources/main.o $(CFLAGS)
+
+sources/teste.o: sources/teste.c
+	$(CC) -c sources/teste.c -o sources/teste.o $(CFLAGS)
+
+sources/interface/input.o: sources/interface/input.c
+	$(CC) -c sources/interface/input.c -o sources/interface/input.o $(CFLAGS)
+
+sources/interface/comando.o: sources/interface/comando.c
+	$(CC) -c sources/interface/comando.c -o sources/interface/comando.o $(CFLAGS)
+
+sources/interface/interface.o: sources/interface/interface.c
+	$(CC) -c sources/interface/interface.c -o sources/interface/interface.o $(CFLAGS)
+
+sources/binaria/arvore.o: sources/binaria/arvore.c
+	$(CC) -c sources/binaria/arvore.c -o sources/binaria/arvore.o $(CFLAGS)
+
+sources/binaria/nodo.o: sources/binaria/nodo.c
+	$(CC) -c sources/binaria/nodo.c -o sources/binaria/nodo.o $(CFLAGS)
+
+sources/modelos/entrevista.o: sources/modelos/entrevista.c
+	$(CC) -c sources/modelos/entrevista.c -o sources/modelos/entrevista.o $(CFLAGS)
+
+sources/modelos/plataforma.o: sources/modelos/plataforma.c
+	$(CC) -c sources/modelos/plataforma.c -o sources/modelos/plataforma.o $(CFLAGS)
+
+sources/modelos/podcast.o: sources/modelos/podcast.c
+	$(CC) -c sources/modelos/podcast.c -o sources/modelos/podcast.o $(CFLAGS)
+
+sources/modelos/tema.o: sources/modelos/tema.c
+	$(CC) -c sources/modelos/tema.c -o sources/modelos/tema.o $(CFLAGS)

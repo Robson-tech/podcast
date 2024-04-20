@@ -4,8 +4,8 @@
 
 typedef struct podcast Podcast;
 
-int validadorPodcast(void *estrutura1, void *estrutura2);
 Podcast* criarPodcast(char *nome, char *entrevistador, Arvore *temas);
+void* getChavePodcast(void *estrutura);
 void imprimirPodcast(void *estrutura);
 
 #endif

@@ -9,12 +9,6 @@ struct tema {
 	Arvore *entrevistas;
 };
 
-int validadorTema(void *estrutura1, void *estrutura2) {
-	Tema *tema1 = (Tema*) estrutura1;
-	Tema *tema2 = (Tema*) estrutura2;
-	return strcmp(tema1->tipo, tema2->tipo);
-}
-
 Tema* criarTema(char *tipo, Arvore *entrevistas) {
 	Tema *novo = NULL;
 	novo = (Tema*) malloc(sizeof(Tema));
@@ -24,6 +18,8 @@ Tema* criarTema(char *tipo, Arvore *entrevistas) {
 	}
 	return novo;
 }
+
+void* getChaveTema(void *estrutura) {return (void*) ((Tema*)estrutura)->tipo;}
 
 void imprimirTema(void *estrutura) {
 	Tema *tema = (Tema*) estrutura;

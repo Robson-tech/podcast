@@ -10,12 +10,6 @@ struct podcast {
 	Arvore *temas;
 };
 
-int validadorPodcast(void *estrutura1, void *estrutura2) {
-	Podcast *podcast1 = (Podcast*) estrutura1;
-	Podcast *podcast2 = (Podcast*) estrutura2;
-	return strcmp(podcast1->nome, podcast2->nome);
-}
-
 Podcast* criarPodcast(char *nome, char *entrevistador, Arvore *temas) {
 	Podcast *novo = NULL;
 	novo = (Podcast*) malloc(sizeof(Podcast));
@@ -26,6 +20,8 @@ Podcast* criarPodcast(char *nome, char *entrevistador, Arvore *temas) {
 	}
 	return novo;
 }
+
+void* getChavePodcast(void *estrutura) {return (void*) ((Podcast*)estrutura)->nome;}
 
 void imprimirPodcast(void *estrutura) {
 	Podcast *podcast = (Podcast*) estrutura;

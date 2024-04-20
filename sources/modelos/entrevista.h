@@ -3,7 +3,7 @@
 
 typedef struct entrevista Entrevista;
 
-int validadorEntrevista(void *estrutura1, void *estrutura2);
+void* getChaveEntrevista(void *estrutura);
 Entrevista* criarEntrevista(char *titulo, char *data, int duracao, char *entrevistado, char *especialidade);
 void imprimirEntrevista(void *estrutura);
 

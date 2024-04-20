@@ -4,8 +4,8 @@
 
 typedef struct tema Tema;
 
-int validadorTema(void *estrutura1, void *estrutura2);
 Tema* criarTema(char *tipo, Arvore *entrevistas);
+void* getChaveTema(void *estrutura);
 void imprimirTema(void *estrutura);
 
 #endif

@@ -5,7 +5,7 @@
 typedef struct plataforma Plataforma;
 
 Plataforma* criarPlataforma(char *nome, Arvore *podcasts);
-void interfaceInsercaoPlataforma(int num_params, ...);
+Plataforma* buscarPlataforma(Plataforma *lista, char *nome);
 void inserirPlataforma(Plataforma **plataforma, Plataforma *nova);
 void imprimirPlataforma(Plataforma *lista);
 

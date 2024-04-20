@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = sources/main.o sources/teste.o sources/interface/input.o sources/interface/comando.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o
-LINKOBJ  = sources/main.o sources/teste.o sources/interface/input.o sources/interface/comando.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o
+OBJ      = sources/main.o sources/teste.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o
+LINKOBJ  = sources/main.o sources/teste.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -30,12 +30,6 @@ sources/main.o: sources/main.c
 sources/teste.o: sources/teste.c
 	$(CC) -c sources/teste.c -o sources/teste.o $(CFLAGS)
 
-sources/interface/input.o: sources/interface/input.c
-	$(CC) -c sources/interface/input.c -o sources/interface/input.o $(CFLAGS)
-
-sources/interface/comando.o: sources/interface/comando.c
-	$(CC) -c sources/interface/comando.c -o sources/interface/comando.o $(CFLAGS)
-
 sources/interface/interface.o: sources/interface/interface.c
 	$(CC) -c sources/interface/interface.c -o sources/interface/interface.o $(CFLAGS)
 
@@ -56,3 +50,6 @@ sources/modelos/podcast.o: sources/modelos/podcast.c
 
 sources/modelos/tema.o: sources/modelos/tema.c
 	$(CC) -c sources/modelos/tema.c -o sources/modelos/tema.o $(CFLAGS)
+
+sources/interface/buscar.o: sources/interface/buscar.c
+	$(CC) -c sources/interface/buscar.c -o sources/interface/buscar.o $(CFLAGS)

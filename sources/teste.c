@@ -2,23 +2,88 @@
 #include <stdlib.h>
 #include <string.h>
 #include "teste.h"
+#include "binaria/arvore.h"
 #include "modelos/plataforma.h"
 #include "modelos/podcast.h"
 #include "modelos/tema.h"
 #include "modelos/entrevista.h"
-#include "binaria/arvore.h"
+#include "interface/menu.h"
 
 void teste() {
-	Arvore *diretores = construirArvore(&getChaveEntrevista, 1, &imprimirEntrevista);
-	inserirArvore(diretores, criarEntrevista("fury road", "14-05-2015", 150, "george miller", "diretor"));
-	inserirArvore(diretores, criarEntrevista("matrix", "31-03-1999", 136, "lana wachowski", "diretor"));
-	inserirArvore(diretores, criarEntrevista("lord of the rings", "19-12-2001", 178, "peter jackson", "diretor"));
-	inserirArvore(diretores, criarEntrevista("star wars", "25-05-1977", 121, "george lucas", "diretor"));
-	inserirArvore(diretores, criarEntrevista("the godfather", "24-03-1972", 175, "francis ford coppola", "diretor"));
-	imprimirArvore(diretores);
-	printf("\n");
-	imprimirNodoArvore(diretores, buscarArvore(diretores, "jurassic park"));
-//	testePodcast();
+	testeInterface();
+}
+
+void testeInterface() {
+	Plataforma *plataformas = NULL;
+	Arvore *podcasts = NULL;
+	Arvore *temas = NULL;
+	Arvore *entrevistas = NULL;
+	
+	entrevistas = construirArvore(&getChaveEntrevista, 1, &imprimirEntrevista);
+	inserirArvore(entrevistas, criarEntrevista("fury road", "14-05-2015", 150, "george miller", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("matrix", "31-03-1999", 136, "lana wachowski", "diretora"));
+	inserirArvore(entrevistas, criarEntrevista("lord of the rings", "19-12-2001", 178, "peter jackson", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("star wars", "25-05-1977", 121, "george lucas", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("the godfather", "24-03-1972", 175, "francis ford coppola", "diretor"));
+//	imprimirArvore(entrevistas);
+	temas = construirArvore(&getChaveTema, 1, &imprimirTema);
+	inserirArvore(temas, criarTema("filmes", entrevistas));
+	inserirArvore(temas, criarTema("documentarios", NULL));
+	inserirArvore(temas, criarTema("series", NULL));
+//	imprimirArvore(temas);
+	podcasts = construirArvore(&getChavePodcast, 1, &imprimirPodcast);
+	inserirArvore(podcasts, criarPodcast("podpah", "igor cavalari", NULL));
+	inserirArvore(podcasts, criarPodcast("nerdcast", "azaghal", temas));
+//	imprimirArvore(podcasts);
+	inserirPlataforma(&plataformas, criarPlataforma("spotify", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("youtube", podcasts));
+	inserirPlataforma(&plataformas, criarPlataforma("deezer", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("facebook", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("twitter", NULL));
+//	imprimirPlataforma(plataformas);
+
+//	imprimirPlataforma(buscarInterfacePlataforma(plataformas));
+//	imprimirPodcast(buscarInterfacePodcast(podcasts));
+//	imprimirTema(buscarInterfaceTema(temas));
+//	imprimirEntrevista(buscarInterfaceEntrevista(entrevistas));
+
+	menu(plataformas, &buscarArvore, &imprimirArvore, &inserirArvore, &construirArvore, &removerArvore);
+//	menu(plataformas, &buscarArvore, &imprimirArvore, &inserirArvore);
+}
+
+void testeRemocaoLista() {
+	Plataforma *plataformas = NULL;
+	inserirPlataforma(&plataformas, criarPlataforma("spotify", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("youtube", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("deezer", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("facebook", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("twitter", NULL));
+	imprimirListaPlataforma(plataformas);
+	printf("\n\n");
+	removerPlataforma(&plataformas, "spotify");
+	removerPlataforma(&plataformas, "youtube");
+	removerPlataforma(&plataformas, "twitter");
+	imprimirListaPlataforma(plataformas);
+}
+
+void testeRemocaoArvore() {
+	Arvore *entrevistas = NULL;
+	entrevistas = construirArvore(&getChaveEntrevista, 1, &imprimirEntrevista);
+	inserirArvore(entrevistas, criarEntrevista("4", "14-05-2015", 150, "george miller", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("2", "25-05-1977", 121, "george lucas", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("6", "19-12-2001", 178, "peter jackson", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("1", "31-03-1999", 136, "lana wachowski", "diretora"));
+	inserirArvore(entrevistas, criarEntrevista("3", "24-03-1972", 140, "james cameron", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("5", "05-02-1991", 280, "steven spielberg", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("7", "16-11-2015", 104, "edgar wright", "diretor"));
+	imprimirArvore(entrevistas);
+	printf("\n\n");
+	removerArvore(entrevistas, "4");
+	removerArvore(entrevistas, "5");
+	removerArvore(entrevistas, "2");
+	removerArvore(entrevistas, "6");
+	removerArvore(entrevistas, "3");
+	imprimirArvore(entrevistas);
 }
 
 //void testePodcast() {

@@ -5,9 +5,11 @@
 #include "../modelos/tema.h"
 #include "../modelos/entrevista.h"
 
+void menuBuscar(Plataforma *plataformas, void* (*buscar)(void*, void*));
+void opcoesBuscar();
 Plataforma* buscarInterfacePlataforma(Plataforma *plataformas);
-Podcast* buscarInterfacePodcast(Podcast *podcasts);
-Tema* buscarInterfaceTema(Tema *temas);
-Entrevista* buscarInterfaceEntrevista(Entrevista *entrevistas);
+Podcast* buscarInterfacePodcast(void *podcasts, void* (*buscar)(void*, void*));
+Tema* buscarInterfaceTema(void *temas, void* (*buscar)(void*, void*));
+Entrevista* buscarInterfaceEntrevista(void *entrevistas, void* (*buscar)(void*, void*));
 
 #endif

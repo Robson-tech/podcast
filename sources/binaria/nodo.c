@@ -19,17 +19,23 @@ Nodo* criarNodo(void *estrutura) {
 	return novo;
 }
 
-void* getEstrutura(Nodo *nodo) {return nodo ? nodo->estrutura : NULL;}
+int ehFolha(Nodo *nodo) { return (nodo && nodo->esq == NULL && nodo->dir == NULL) ? 1 : 0; }
+
+void* getEstrutura(Nodo *nodo) { return nodo ? nodo->estrutura : NULL; }
+
+void trocarEstruturasNodo(Nodo *a, Nodo *b) {
+	void *aux = a->estrutura;
+	a->estrutura = b->estrutura;
+	b->estrutura = aux;
+}
 
 Nodo** buscarNodo(Nodo **raiz, void *chave, void* (*getChave)(void*), int (*validador)(void*, void*)) {
 	Nodo **busca = raiz;
-	while(*busca) {
+	while(*busca && validador(chave, getChave((*busca)->estrutura)) != 0) {
 		if(validador(chave, getChave((*busca)->estrutura)) > 0)
 			busca = &((*busca)->esq);
 		else if(validador(chave, getChave((*busca)->estrutura)) < 0)
 			busca = &((*busca)->dir);
-		else
-			break;
 	}
 	return busca;
 }
@@ -48,6 +54,41 @@ void inserirNodo(Nodo **raiz, void *estrutura, void* (*getChave)(void*), int (*v
 //		else if(validador(getChave(estrutura), getChave((*raiz)->estrutura)) < 0)
 //			inserirNodo(&((*raiz)->dir), estrutura, validador);
 //	}
+}
+
+void removerNodo(Nodo **raiz, void *chave, void* (*getChave)(void*), int (*validador)(void*, void*)) {
+	Nodo **busca = NULL;
+	Nodo *remover = NULL;
+	Nodo *aux = NULL;
+	busca = buscarNodo(raiz, chave, getChave, validador);
+	if(*busca) {
+		if((*busca)->esq && (*busca)->dir) {
+			aux = (*busca)->esq;
+			while(aux->dir)
+				aux = aux->dir;
+			trocarEstruturasNodo(*busca, aux);
+			removerNodo(&((*busca)->esq), chave, getChave, validador);
+		} else if(!ehFolha(*busca)) {
+			remover = *busca;
+			if((*busca)->esq) *busca = (*busca)->esq;
+			else *busca = (*busca)->dir;
+		} else {
+			remover = *busca;
+			*busca = NULL;
+		}
+		if(remover) {
+			free((remover)->estrutura);
+			free(remover);
+		}
+	}
+}
+
+void imprimirNodo2(Nodo *raiz, void (*impressao)(void*)) {
+	if(raiz) {
+		imprimirNodo2(raiz->esq, impressao);
+		(*impressao)(raiz->estrutura);
+		imprimirNodo2(raiz->dir, impressao);
+	}
 }
 
 void imprimirNodo(Nodo *raiz, int nivel, void (*impressao)(void*)) {

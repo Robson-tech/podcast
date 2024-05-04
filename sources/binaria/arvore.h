@@ -4,10 +4,11 @@
 
 typedef struct arvore Arvore;
 
-Arvore* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(void*));
-void* buscarArvore(Arvore *arvore, void *chave);
-void inserirArvore(Arvore *arvore, void *elemento);
-void imprimirNodoArvore(Arvore *arvore, void *nodo);
-void imprimirArvore(Arvore *arvore);
+void* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(void*));
+void* buscarArvore(void *estrutura, void *chave);
+void inserirArvore(void *estrutura, void *elemento);
+void removerArvore(void *estrutura, void *chave);
+void imprimirNodoArvore(void *estrutura, void *nodo);
+void imprimirArvore(void *estrutura);
 
 #endif

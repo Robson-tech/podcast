@@ -14,7 +14,7 @@ int comparadorNumerico(void *chave1, void *chave2) {return *((int*) chave1) - *(
 
 int comparadorString(void *chave1, void *chave2) {return strcmp((char*)chave1, (char*)chave2);}
 
-Arvore* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(void*)) {
+void* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(void*)) {
 	Arvore *nova = NULL;
 	nova = (Arvore*) malloc(sizeof(Arvore));
 	if(nova) {
@@ -26,21 +26,48 @@ Arvore* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(vo
 	return nova;
 }
 
-void* buscarArvore(Arvore *arvore, void *chave) {
-	Nodo **nodo = NULL;
-	nodo = buscarNodo(&(arvore->raiz), chave, arvore->getChave, arvore->validador);
-	return getEstrutura(*nodo);
+void* buscarArvore(void *estrutura, void *chave) {
+	Arvore *arvore = NULL;
+	void *busca = NULL;
+	if(estrutura) {
+		arvore = (Arvore*) estrutura;
+		Nodo **nodo = NULL;
+		nodo = buscarNodo(&(arvore->raiz), chave, arvore->getChave, arvore->validador);
+		busca = getEstrutura(*nodo);
+	}
+	return busca;
 }
 
-void inserirArvore(Arvore *arvore, void *elemento) {
-	inserirNodo(&(arvore->raiz), elemento, arvore->getChave, arvore->validador);
+void inserirArvore(void *estrutura, void *elemento) {
+	Arvore *arvore = NULL;
+	if(estrutura) {
+		arvore = (Arvore*) estrutura;
+		inserirNodo(&(arvore->raiz), elemento, arvore->getChave, arvore->validador);
+	}
 }
 
-void imprimirNodoArvore(Arvore *arvore, void *nodo) {
-	if(nodo)
+void removerArvore(void *estrutura, void *chave) {
+	Arvore *arvore = NULL;
+	void *busca = NULL;
+	if(estrutura) {
+		arvore = (Arvore*) estrutura;
+		removerNodo(&(arvore->raiz), chave, arvore->getChave, arvore->validador);
+	}
+}
+
+void imprimirNodoArvore(void *estrutura, void *nodo) {
+	Arvore *arvore = NULL;
+	if(estrutura && nodo) {
+		arvore = (Arvore*) estrutura;
 		arvore->impressao(nodo);
+	}
 }
 
-void imprimirArvore(Arvore *arvore) {
-	imprimirNodo(arvore->raiz, 0, arvore->impressao);
+void imprimirArvore(void *estrutura) {
+	Arvore *arvore = NULL;
+	if(estrutura) {
+		arvore = (Arvore*) estrutura;
+//		imprimirNodo(arvore->raiz, 0, arvore->impressao);
+		imprimirNodo2(arvore->raiz, arvore->impressao);
+	}
 }

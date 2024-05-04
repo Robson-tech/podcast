@@ -27,11 +27,13 @@ Entrevista* criarEntrevista(char *titulo, char *data, int duracao, char *entrevi
 void* getChaveEntrevista(void *estrutura) {return (void*) ((Entrevista*)estrutura)->titulo;}
 
 void imprimirEntrevista(void *estrutura) {
-	Entrevista *entrevista = (Entrevista*) estrutura;
-	printf(
-		"%s\n"
-		"%s\n%d\n%s\n%s\n"
-		, entrevista->titulo
-		, entrevista->data, entrevista->duracao, entrevista->entrevistado, entrevista->especialidade
-	);
+	if(estrutura) {
+		Entrevista *entrevista = (Entrevista*) estrutura;
+		printf(
+			"%-20s\n"
+//			"%-12s%-5d%-25s%-20s\n"
+			, entrevista->titulo
+//			, entrevista->data, entrevista->duracao, entrevista->entrevistado, entrevista->especialidade
+		);
+	}
 }

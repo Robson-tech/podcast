@@ -2,14 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tema.h"
-#include "../binaria/arvore.h"
 
 struct tema {
 	char tipo[50];
-	Arvore *entrevistas;
+	void *entrevistas; // Quando for implementar outros tipos de arvore, lembrar de usar void* para desacoplar e evitar problemas
 };
 
-Tema* criarTema(char *tipo, Arvore *entrevistas) {
+Tema* criarTema(char *tipo, void *entrevistas) {
 	Tema *novo = NULL;
 	novo = (Tema*) malloc(sizeof(Tema));
 	if(novo) {
@@ -21,8 +20,14 @@ Tema* criarTema(char *tipo, Arvore *entrevistas) {
 
 void* getChaveTema(void *estrutura) {return (void*) ((Tema*)estrutura)->tipo;}
 
+void *getEntrevistas(Tema *tema) { return (tema) ? tema->entrevistas : NULL; }
+
+void *setEntrevistas(Tema *tema, void *estrutura) { if (tema) tema->entrevistas = estrutura; }
+
 void imprimirTema(void *estrutura) {
-	Tema *tema = (Tema*) estrutura;
-	printf("%s\n", tema->tipo);
-//	imprimirArvore(tema->entrevistas);
+	if(estrutura) {
+		Tema *tema = (Tema*) estrutura;
+		printf("%s\n", tema->tipo);
+//		imprimirArvore(tema->entrevistas);
+	}
 }

@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "plataforma.h"
-#include "../binaria/arvore.h"
 
 struct plataforma {
 	char nome[100];
-	Arvore *podcasts;
+	void *podcasts; // Quando for implementar outros tipos de arvore, lembrar de usar void* para desacoplar e evitar problemas
 	struct plataforma *prox;
 };
 
-Plataforma* criarPlataforma(char *nome, Arvore *podcasts) {
+Plataforma* criarPlataforma(char *nome, void *podcasts) {
 	Plataforma *nova = NULL;
 	nova = (Plataforma*) malloc(sizeof(Plataforma));
 	if(nova) {
@@ -20,6 +19,10 @@ Plataforma* criarPlataforma(char *nome, Arvore *podcasts) {
 	}
 	return nova;
 }
+
+void* getPodcasts(Plataforma *plataforma) { return (plataforma) ? plataforma->podcasts : NULL; }
+
+void setPodcasts(Plataforma *plataforma, void *estrutura) { if(plataforma) plataforma->podcasts = estrutura; }
 
 Plataforma* buscarPlataforma(Plataforma *lista, char *nome) {
 	Plataforma *busca = NULL;
@@ -31,16 +34,46 @@ Plataforma* buscarPlataforma(Plataforma *lista, char *nome) {
 	return busca;
 }
 
-void inserirPlataforma(Plataforma **plataforma, Plataforma *nova) {
-	if(plataforma) {
-		nova->prox = *plataforma;
-		*plataforma = nova;
+void inserirPlataforma(Plataforma **lista, Plataforma *nova) {
+	if(lista) {
+		nova->prox = *lista;
+		*lista = nova;
 	}
 }
 
-void imprimirPlataforma(Plataforma *lista) {
+void removerPlataforma(Plataforma **lista, char *nome) {
+	Plataforma *aux = NULL;
+	Plataforma *remover = NULL;
+	if(*lista) {
+		aux = *lista;
+		if(strcmp(nome, aux->nome) == 0) {
+			*lista = aux->prox;
+			remover = aux;
+		} else {
+			while(aux->prox && strcmp(nome, aux->prox->nome) != 0)
+				aux = aux->prox;
+			if(aux->prox) {
+				remover = aux->prox;
+				aux->prox = remover->prox;
+			}
+		}
+		if(remover) {
+			free(remover->podcasts);
+			free(remover);
+		}
+	}
+}
+
+void imprimirPlataforma(Plataforma *plataforma) {
+	if(plataforma) {
+		printf("%s\n", plataforma->nome);
+//		imprimirArvore(plataforma->podcasts);
+	}
+}
+
+void imprimirListaPlataforma(Plataforma *lista) {
 	while(lista) {
-		printf("%s\n", lista->nome);
+		imprimirPlataforma(lista);
 		lista = lista->prox;
 	}
 }

@@ -3,8 +3,8 @@
 
 typedef struct entrevista Entrevista;
 
-void* getChaveEntrevista(void *estrutura);
 Entrevista* criarEntrevista(char *titulo, char *data, int duracao, char *entrevistado, char *especialidade);
+void* getChaveEntrevista(void *estrutura);
 void imprimirEntrevista(void *estrutura);
 
 #endif

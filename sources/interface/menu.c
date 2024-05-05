@@ -23,7 +23,8 @@ void menu(
 	void (*imprimir)(void*),
 	void (*inserir)(void*, void*),
 	void* (*criar)(void*(*)(void*), int, void(*)(void*)),
-	void (*remover)(void*, void*)
+	void (*remover)(void*, void*),
+	int (*temItens)(void*)
 ) {
 	int opc;
 	
@@ -41,7 +42,7 @@ void menu(
 				menuInserir(&plataformas, buscar, inserir, criar);
 				break;
 			case 4:
-				menuRemover(&plataformas, buscar, remover);
+				menuRemover(&plataformas, buscar, remover, temItens);
 				break;
 			case 0:
 				break;

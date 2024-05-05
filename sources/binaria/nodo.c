@@ -41,19 +41,14 @@ Nodo** buscarNodo(Nodo **raiz, void *chave, void* (*getChave)(void*), int (*vali
 }
 
 void inserirNodo(Nodo **raiz, void *estrutura, void* (*getChave)(void*), int (*validador)(void*, void*)) {
-	Nodo **busca = NULL;
-	busca = buscarNodo(raiz, getChave(estrutura), getChave, validador);
-	if(*busca == NULL) {
-		*busca = criarNodo(estrutura);
+	if(*raiz == NULL)
+		*raiz = criarNodo(estrutura);
+	else {
+		if(validador(getChave(estrutura), getChave((*raiz)->estrutura)) > 0)
+			inserirNodo(&((*raiz)->esq), estrutura, getChave, validador);
+		else if(validador(getChave(estrutura), getChave((*raiz)->estrutura)) < 0)
+			inserirNodo(&((*raiz)->dir), estrutura, getChave, validador);
 	}
-//	if(*raiz == NULL)
-//		*raiz = criarNodo(estrutura);
-//	else {
-//		if(validador(getChave(estrutura), getChave((*raiz)->estrutura)) > 0)
-//			inserirNodo(&((*raiz)->esq), estrutura, validador);
-//		else if(validador(getChave(estrutura), getChave((*raiz)->estrutura)) < 0)
-//			inserirNodo(&((*raiz)->dir), estrutura, validador);
-//	}
 }
 
 void removerNodo(Nodo **raiz, void *chave, void* (*getChave)(void*), int (*validador)(void*, void*)) {
@@ -99,5 +94,15 @@ void imprimirNodo(Nodo *raiz, int nivel, void (*impressao)(void*)) {
 			printf("\t");
 		(*impressao)(raiz->estrutura);
 		imprimirNodo(raiz->dir, nivel + 1, impressao);
+	}
+}
+
+void* destruirNodo(Nodo **nodo) {
+	if(*nodo) {
+		destruirNodo(&((*nodo)->esq));
+		free((*nodo)->estrutura);
+		destruirNodo(&((*nodo)->dir));
+		free(*nodo);
+		*nodo = NULL;
 	}
 }

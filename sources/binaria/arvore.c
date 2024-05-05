@@ -26,12 +26,14 @@ void* construirArvore(void* (*getChave)(void*), int tipo, void (*impressao)(void
 	return nova;
 }
 
+int temItensBI(void *estrutura) { return (estrutura && ((Arvore*)estrutura)->raiz) ? 1 : 0; }
+
 void* buscarArvore(void *estrutura, void *chave) {
 	Arvore *arvore = NULL;
+	Nodo **nodo = NULL;
 	void *busca = NULL;
 	if(estrutura) {
 		arvore = (Arvore*) estrutura;
-		Nodo **nodo = NULL;
 		nodo = buscarNodo(&(arvore->raiz), chave, arvore->getChave, arvore->validador);
 		busca = getEstrutura(*nodo);
 	}
@@ -67,7 +69,17 @@ void imprimirArvore(void *estrutura) {
 	Arvore *arvore = NULL;
 	if(estrutura) {
 		arvore = (Arvore*) estrutura;
-//		imprimirNodo(arvore->raiz, 0, arvore->impressao);
-		imprimirNodo2(arvore->raiz, arvore->impressao);
+		imprimirNodo(arvore->raiz, 0, arvore->impressao);
+//		imprimirNodo2(arvore->raiz, arvore->impressao);
+	}
+}
+
+void destruirArvore(void **estrutura) {
+	Arvore *arvore = NULL;
+	if(estrutura && *estrutura) {
+		arvore = (Arvore*) *estrutura;
+		destruirNodo(&(arvore->raiz));
+		free(arvore);
+		*estrutura = NULL;
 	}
 }

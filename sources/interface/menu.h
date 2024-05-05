@@ -9,7 +9,8 @@ void menu(
 	void (*imprimir)(void*),
 	void (*inserir)(void*, void*),
 	void* (*criar)(void*(*)(void*), int, void(*)(void*)),
-	void (*remover)(void*, void*)
+	void (*remover)(void*, void*),
+	int (*temItens)(void*)
 );
 
 #endif

@@ -10,5 +10,6 @@ void inserirNodo(Nodo **raiz, void *estrutura, void* (*getChave)(void*), int (*v
 void removerNodo(Nodo **raiz, void *chave, void* (*getChave)(void*), int (*validador)(void*, void*));
 void imprimirNodo2(Nodo *raiz, void (*impressao)(void*));
 void imprimirNodo(Nodo *raiz, int nivel, void (*impressao)(void*));
+void* destruirNodo(Nodo **nodo);
 
 #endif

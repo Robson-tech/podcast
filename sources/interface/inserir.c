@@ -64,7 +64,6 @@ Tema* inserirTema(Plataforma **plataformas, void* (*buscar)(void*, void*), void 
 		if(podcast) {
 			if(getTemas(podcast) == NULL)
 				setTemas(podcast, criar(&getChaveTema, 1, &imprimirTema));
-			printf("aqui\n");
 			novo = formularioTema(criar);
 			inserir(getTemas(podcast), novo);
 		}

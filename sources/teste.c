@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "teste.h"
 #include "binaria/arvore.h"
+#include "avl/arvore_avl.h"
 #include "modelos/plataforma.h"
 #include "modelos/podcast.h"
 #include "modelos/tema.h"
@@ -10,7 +12,201 @@
 #include "interface/menu.h"
 
 void teste() {
-	testeInterface();
+	testeAVL();
+}
+
+char* geradorStrings(const int tam, const int itr) {
+	char *texto;
+	int tipo[2] = {65, 97};
+	int i;
+	texto = (char*) malloc(sizeof(char) * tam);
+	if(texto) {
+		srand(time(NULL) + itr);
+		for(i = 0; i < tam - 1; i++)
+			texto[i] = (char) (rand() % 26 + tipo[rand() % 2]);
+		texto[i] = '\0';
+	}
+	return texto;
+}
+
+char** gerarListaStrings(const int tamLista, const int tamText) {
+	char **lista;
+	int i;
+	lista = (char**) malloc(sizeof(char*) * tamLista);
+	if(lista) {
+		for(i = 0; i < tamLista; i++)
+			lista[i] = geradorStrings(tamText, i);
+	}
+	return lista;
+}
+
+void destruirListaStrings(char **lista, const int tamLista) {
+	int i;
+	for(i = 0; i < tamLista; i++)
+		free(lista[i]);
+	free(lista);
+}
+
+void testeTempoInsercaoBinaria(const int qntd, const int tamText) {
+	Arvore *podcasts = NULL;
+	clock_t inicio, fim;
+	double tempo, media = 0;
+	char **lista;
+	int i, j;
+	printf("Inserindo %d itens por teste na BINARIA:\n\n", qntd);
+	for(i = 0; i < 30; i++) {
+		podcasts = construirArvore(&getChavePodcast, 1, &imprimirPodcast);
+		lista = gerarListaStrings(qntd, tamText);
+		inicio = clock();
+		for(j = 0; j < qntd; j++)
+			inserirArvore(podcasts, criarPodcast(lista[j], "", NULL));
+		fim = clock();
+		tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+		media += tempo;
+		printf("%02d) Tempo: %.3lf\n", i + 1, tempo);
+//		imprimirArvore(podcasts);
+//		getchar();
+		destruirListaStrings(lista, qntd);
+		destruirArvore((void**)&podcasts);
+	}
+	media /= 30;
+	printf("\nMedia: %.3lf\n", media);
+}
+
+void testeTempoBuscaBinaria(const int qntd, const int tamText, const int numBuscas) {
+	Arvore *podcasts = NULL;
+	clock_t inicio, fim;
+	double tempo, media = 0;
+	char **lista;
+	int i, j;
+	podcasts = construirArvore(&getChavePodcast, 1, &imprimirPodcast);
+	lista = gerarListaStrings(qntd, tamText);
+	for(i = 0; i < qntd; i++)
+		inserirArvore(podcasts, criarPodcast(lista[i], "", NULL));
+	destruirListaStrings(lista, qntd);
+//	imprimirArvore(podcasts);
+//	getchar();
+	printf("Buscando %d em %d itens por teste na BINARIA:\n\n", numBuscas, qntd);
+	for(i = 0; i < 30; i++) {
+		lista = gerarListaStrings(numBuscas, tamText);
+		inicio = clock();
+		for(j = 0; j < numBuscas; j++)
+			buscarArvore(podcasts, lista[j]);
+		fim = clock();
+		tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+		media += tempo;
+		printf("%02d) Tempo: %.3lf\n", i + 1, tempo);
+		destruirListaStrings(lista, numBuscas);
+	}
+	media /= 30;
+	printf("\nMedia: %.3lf\n", media);
+	destruirArvore((void**)&podcasts);
+}
+
+void testeTempoInsercaoAVL(const int qntd, const int tamText) {
+	ArvoreAVL *podcasts = NULL;
+	clock_t inicio, fim;
+	double tempo, media = 0;
+	char **lista;
+	int i, j;
+	printf("Inserindo %d itens por teste na AVL:\n\n", qntd);
+	for(i = 0; i < 30; i++) {
+		podcasts = construirArvoreAVL(&getChavePodcast, 1, &imprimirPodcast);
+		lista = gerarListaStrings(qntd, tamText);
+		inicio = clock();
+		for(j = 0; j < qntd; j++)
+			inserirArvoreAVL(podcasts, criarPodcast(lista[j], "", NULL));
+		fim = clock();
+		tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+		media += tempo;
+		printf("%02d) Tempo: %.3lf\n", i + 1, tempo);
+//		imprimirArvoreAVL(podcasts);
+//		getchar();
+		destruirListaStrings(lista, qntd);
+		destruirArvoreAVL((void**)&podcasts);
+	}
+	media /= 30;
+	printf("\nMedia: %.3lf\n", media);
+}
+
+void testeTempoBuscaAVL(const int qntd, const int tamText, const int numBuscas) {
+	ArvoreAVL *podcasts = NULL;
+	clock_t inicio, fim;
+	double tempo, media = 0;
+	char **lista;
+	int i, j;
+	podcasts = construirArvoreAVL(&getChavePodcast, 1, &imprimirPodcast);
+	lista = gerarListaStrings(qntd, tamText);
+	for(i = 0; i < qntd; i++)
+		inserirArvoreAVL(podcasts, criarPodcast(lista[i], "", NULL));
+	destruirListaStrings(lista, qntd);
+//	imprimirArvoreAVL(podcasts);
+//	getchar();
+	printf("Buscando %d em %d itens por teste na AVL:\n\n", numBuscas, qntd);
+	for(i = 0; i < 30; i++) {
+		lista = gerarListaStrings(numBuscas, tamText);
+		inicio = clock();
+		for(j = 0; j < numBuscas; j++)
+			buscarArvoreAVL(podcasts, lista[j]);
+		fim = clock();
+		tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+		media += tempo;
+		printf("%02d) Tempo: %.3lf\n", i + 1, tempo);
+		destruirListaStrings(lista, numBuscas);
+	}
+	media /= 30;
+	printf("\nMedia: %.3lf\n", media);
+	destruirArvoreAVL((void**)&podcasts);
+}
+
+void testeAVL() {
+	Plataforma *plataformas = NULL;
+	ArvoreAVL *podcasts = NULL;
+	ArvoreAVL *temas = NULL;
+	ArvoreAVL *entrevistas = NULL;
+	
+	entrevistas = construirArvoreAVL(&getChaveEntrevista, 1, &imprimirEntrevista);
+	inserirArvoreAVL(entrevistas, criarEntrevista("fury road", "14-05-2015", 150, "george miller", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("the matrix", "31-03-1999", 136, "lana wachowski", "diretora"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("lord of the rings", "19-12-2001", 178, "peter jackson", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("star wars", "25-05-1977", 121, "george lucas", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("the godfather", "24-03-1972", 175, "francis ford coppola", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("the shawshank redemption", "14-10-1994", 142, "morgan freeman", "ator"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("cidade de deus", "30-08-2002", 130, "alexandre rodrigues", "ator"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("drive", "16-09-2011", 100, "ryan gosling", "ator"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("the dark knight", "18-07-2008", 152, "heath ledger", "ator"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("avengers", "04-05-2012", 143, "robert downey jr.", "ator"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("harry potter", "16-11-2001", 152, "j.k. rowling", "escritor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("avatar", "18-12-2009", 162, "james cameron", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("titanic", "18-12-1997", 195, "james cameron", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("jurassic park", "11-06-1993", 127, "steven spielberg", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("indiana jones", "12-06-1981", 115, "steven spielberg", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("star trek", "08-05-2009", 127, "j.j. abrams", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("requiem for a dream", "15-12-2000", 102, "darren aronofsky", "diretor"));
+	inserirArvoreAVL(entrevistas, criarEntrevista("the social network", "01-10-2010", 120, "david fincher", "diretor"));
+//	imprimirArvoreAVL(entrevistas);
+	temas = construirArvoreAVL(&getChaveTema, 1, &imprimirTema);
+	inserirArvoreAVL(temas, criarTema("filmes", entrevistas));
+	inserirArvoreAVL(temas, criarTema("documentarios", NULL));
+	inserirArvoreAVL(temas, criarTema("series", NULL));
+//	imprimirArvoreAVL(temas);
+	podcasts = construirArvoreAVL(&getChavePodcast, 1, &imprimirPodcast);
+	inserirArvoreAVL(podcasts, criarPodcast("podpah", "igor cavalari", NULL));
+	inserirArvoreAVL(podcasts, criarPodcast("nerdcast", "azaghal", temas));
+//	imprimirArvoreAVL(podcasts);
+	inserirPlataforma(&plataformas, criarPlataforma("spotify", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("youtube", podcasts));
+	inserirPlataforma(&plataformas, criarPlataforma("deezer", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("facebook", NULL));
+	inserirPlataforma(&plataformas, criarPlataforma("twitter", NULL));
+//	imprimirPlataforma(plataformas);
+
+//	imprimirPlataforma(buscarInterfacePlataforma(plataformas));
+//	imprimirPodcast(buscarInterfacePodcast(podcasts));
+//	imprimirTema(buscarInterfaceTema(temas));
+//	imprimirEntrevista(buscarInterfaceEntrevista(entrevistas));
+
+	menu(plataformas, &buscarArvoreAVL, &imprimirArvoreAVL, &inserirArvoreAVL, &construirArvoreAVL, &removerArvoreAVL, &temItensAVL);
 }
 
 void testeInterface() {
@@ -21,11 +217,24 @@ void testeInterface() {
 	
 	entrevistas = construirArvore(&getChaveEntrevista, 1, &imprimirEntrevista);
 	inserirArvore(entrevistas, criarEntrevista("fury road", "14-05-2015", 150, "george miller", "diretor"));
-	inserirArvore(entrevistas, criarEntrevista("matrix", "31-03-1999", 136, "lana wachowski", "diretora"));
+	inserirArvore(entrevistas, criarEntrevista("the matrix", "31-03-1999", 136, "lana wachowski", "diretora"));
 	inserirArvore(entrevistas, criarEntrevista("lord of the rings", "19-12-2001", 178, "peter jackson", "diretor"));
 	inserirArvore(entrevistas, criarEntrevista("star wars", "25-05-1977", 121, "george lucas", "diretor"));
 	inserirArvore(entrevistas, criarEntrevista("the godfather", "24-03-1972", 175, "francis ford coppola", "diretor"));
-//	imprimirArvore(entrevistas);
+	inserirArvore(entrevistas, criarEntrevista("the shawshank redemption", "14-10-1994", 142, "morgan freeman", "ator"));
+	inserirArvore(entrevistas, criarEntrevista("cidade de deus", "30-08-2002", 130, "alexandre rodrigues", "ator"));
+	inserirArvore(entrevistas, criarEntrevista("drive", "16-09-2011", 100, "ryan gosling", "ator"));
+	inserirArvore(entrevistas, criarEntrevista("the dark knight", "18-07-2008", 152, "heath ledger", "ator"));
+	inserirArvore(entrevistas, criarEntrevista("avengers", "04-05-2012", 143, "robert downey jr.", "ator"));
+	inserirArvore(entrevistas, criarEntrevista("harry potter", "16-11-2001", 152, "j.k. rowling", "escritor"));
+	inserirArvore(entrevistas, criarEntrevista("avatar", "18-12-2009", 162, "james cameron", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("titanic", "18-12-1997", 195, "james cameron", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("jurassic park", "11-06-1993", 127, "steven spielberg", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("indiana jones", "12-06-1981", 115, "steven spielberg", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("star trek", "08-05-2009", 127, "j.j. abrams", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("requiem for a dream", "15-12-2000", 102, "darren aronofsky", "diretor"));
+	inserirArvore(entrevistas, criarEntrevista("the social network", "01-10-2010", 120, "david fincher", "diretor"));
+	imprimirArvore(entrevistas);
 	temas = construirArvore(&getChaveTema, 1, &imprimirTema);
 	inserirArvore(temas, criarTema("filmes", entrevistas));
 	inserirArvore(temas, criarTema("documentarios", NULL));
@@ -47,8 +256,7 @@ void testeInterface() {
 //	imprimirTema(buscarInterfaceTema(temas));
 //	imprimirEntrevista(buscarInterfaceEntrevista(entrevistas));
 
-	menu(plataformas, &buscarArvore, &imprimirArvore, &inserirArvore, &construirArvore, &removerArvore);
-//	menu(plataformas, &buscarArvore, &imprimirArvore, &inserirArvore);
+	menu(plataformas, &buscarArvore, &imprimirArvore, &inserirArvore, &construirArvore, &removerArvore, &temItensBI);
 }
 
 void testeRemocaoLista() {

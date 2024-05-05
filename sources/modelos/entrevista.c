@@ -30,10 +30,10 @@ void imprimirEntrevista(void *estrutura) {
 	if(estrutura) {
 		Entrevista *entrevista = (Entrevista*) estrutura;
 		printf(
-			"%-20s\n"
-//			"%-12s%-5d%-25s%-20s\n"
+			"%-30s%-12s%-5d%-25s"
+			"%-30s\n"
 			, entrevista->titulo
-//			, entrevista->data, entrevista->duracao, entrevista->entrevistado, entrevista->especialidade
+			, entrevista->data, entrevista->duracao, entrevista->entrevistado, entrevista->especialidade
 		);
 	}
 }

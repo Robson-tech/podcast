@@ -29,7 +29,12 @@ void* setTemas(Podcast *podcast, void *estrutura) { if (podcast) podcast->temas 
 void imprimirPodcast(void *estrutura) {
 	if(estrutura) {
 		Podcast *podcast = (Podcast*) estrutura;
-		printf("%-20s%s\n", podcast->nome, podcast->entrevistador);
+		printf(
+//			"%-20s"
+			"%s\n",
+			podcast->nome
+//			, podcast->entrevistador
+		);
 //		imprimirArvore(podcast->temas);
 	}
 }

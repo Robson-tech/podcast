@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = sources/main.o sources/teste.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o
-LINKOBJ  = sources/main.o sources/teste.o sources/interface/interface.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o
+OBJ      = sources/main.o sources/teste.o sources/interface/menu.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o sources/interface/imprimir.o sources/interface/inserir.o sources/interface/remover.o sources/avl/nodo_avl.o sources/avl/arvore_avl.o
+LINKOBJ  = sources/main.o sources/teste.o sources/interface/menu.o sources/binaria/arvore.o sources/binaria/nodo.o sources/modelos/entrevista.o sources/modelos/plataforma.o sources/modelos/podcast.o sources/modelos/tema.o sources/interface/buscar.o sources/interface/imprimir.o sources/interface/inserir.o sources/interface/remover.o sources/avl/nodo_avl.o sources/avl/arvore_avl.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -30,8 +30,8 @@ sources/main.o: sources/main.c
 sources/teste.o: sources/teste.c
 	$(CC) -c sources/teste.c -o sources/teste.o $(CFLAGS)
 
-sources/interface/interface.o: sources/interface/interface.c
-	$(CC) -c sources/interface/interface.c -o sources/interface/interface.o $(CFLAGS)
+sources/interface/menu.o: sources/interface/menu.c
+	$(CC) -c sources/interface/menu.c -o sources/interface/menu.o $(CFLAGS)
 
 sources/binaria/arvore.o: sources/binaria/arvore.c
 	$(CC) -c sources/binaria/arvore.c -o sources/binaria/arvore.o $(CFLAGS)
@@ -53,3 +53,18 @@ sources/modelos/tema.o: sources/modelos/tema.c
 
 sources/interface/buscar.o: sources/interface/buscar.c
 	$(CC) -c sources/interface/buscar.c -o sources/interface/buscar.o $(CFLAGS)
+
+sources/interface/imprimir.o: sources/interface/imprimir.c
+	$(CC) -c sources/interface/imprimir.c -o sources/interface/imprimir.o $(CFLAGS)
+
+sources/interface/inserir.o: sources/interface/inserir.c
+	$(CC) -c sources/interface/inserir.c -o sources/interface/inserir.o $(CFLAGS)
+
+sources/interface/remover.o: sources/interface/remover.c
+	$(CC) -c sources/interface/remover.c -o sources/interface/remover.o $(CFLAGS)
+
+sources/avl/nodo_avl.o: sources/avl/nodo_avl.c
+	$(CC) -c sources/avl/nodo_avl.c -o sources/avl/nodo_avl.o $(CFLAGS)
+
+sources/avl/arvore_avl.o: sources/avl/arvore_avl.c
+	$(CC) -c sources/avl/arvore_avl.c -o sources/avl/arvore_avl.o $(CFLAGS)
